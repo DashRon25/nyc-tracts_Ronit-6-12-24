@@ -1,0 +1,32 @@
+---
+title: "Income Distribution"
+format: html
+execute: 
+  echo: FALSE
+---
+
+```{r}
+#| label: setup
+#| message: FALSE
+library(tidyverse)
+library(ggbeeswarm)
+```
+
+```{r}
+nyc_tracts <- read.csv("data/nyc_tracts.csv")
+```
+
+```{r}
+#| message: FALSE
+nyc_tracts |> drop_na() |> ggplot(aes(x = med_income, y = race, colour = med_income)) +
+  geom_quasirandom() +
+  scale_color_viridis_c(guide = "none") +
+  scale_x_continuous(labels = scales::dollar_format()) +
+  labs(title = "Household income distribution by largest racial/ethnic group",
+       subtitle = "Census tracts, New York City",
+       x = "Median household income",
+       y = "Largest group in Census tract",
+       caption = "Data source: 2016-2020 ACS") + theme(legend.position = "none")
+```
+
+
